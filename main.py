@@ -53,15 +53,21 @@ async def ola(ctx):
 
 @bot.command()
 async def eco(ctx, *, content):
-    """Repete o que eu disse"""
+    """
+    Repete o que eu disse
+
+    https://stackoverflow.com/questions/61609453/discord-bot-ctx-only-capturing-first-word
+    """
     message = "".join(content)
     await ctx.send(f"Você disse: \n> _{message}_")
 
 
-@bot.command()
-async def info(ctx):
-    await ctx.send(ctx.guild)
-    await ctx.send(ctx.author)
-    await ctx.send(ctx.message.id)
+@bot.event
+async def on_message(msg):
+    if msg.content == 'mod' and msg.author != bot.user:
+        await msg.channel.send('Alguém me chamou?')
+
 
 bot.run(TOKEN)
+
+# https://stackoverflow.com/questions/66722825/get-the-message-content-into-a-command-discord-py
